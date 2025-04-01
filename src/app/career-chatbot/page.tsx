@@ -81,7 +81,7 @@ export default function CareerGuidanceChatbot() {
             role: "model",
             parts: [
               {
-                text: "Understood. I'm MentorSTEM, ready to advise on women in STEM careers.",
+                text: "Understood. I'm Pragati, an AI Assistant, ready to advise on women in STEM careers.",
               },
             ],
           },
@@ -118,8 +118,6 @@ export default function CareerGuidanceChatbot() {
 
   return (
     <div className="px-24 mx-auto p-4 bg-[#ffe5d9] min-h-screen">
-      <h1 className="text-2xl font-bold mb-6">Women in STEM Career Advisor</h1>
-
       <Card className="bg-white mb-6">
         <CardHeader>
           <CardTitle>Chat with PragatiAI</CardTitle>
