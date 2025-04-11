@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 import { useState } from "react";
 import { signIn } from "next-auth/react"; // NextAuth function for signing in
@@ -19,12 +19,12 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
 
   // Handle input changes for email/password
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   // Handle email/password form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(""); // Reset error message
     setLoading(true); // Show loading state
@@ -52,6 +52,7 @@ export default function Login() {
       router.push("/dashboard");
     }
   };
+
   return (
     <div className="min-h-screen bg-[#ffe5d9] flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
@@ -60,7 +61,7 @@ export default function Login() {
           <div>
             <Label htmlFor="email">Email</Label>
             <input
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+              className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
               id="email"
               type="email"
               name="email"
@@ -104,11 +105,13 @@ export default function Login() {
             <Button variant="outline" onClick={() => signIn("google")}>
               Google
             </Button>
-            <Button onClick={() => signIn("linkedin")} variant="outline">LinkedIn</Button>
+            <Button onClick={() => signIn("linkedin")} variant="outline">
+              LinkedIn
+            </Button>
           </div>
         </div>
         <p className="mt-4 text-sm text-center text-muted-foreground">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link href="/signup" className="text-[#9d8189] hover:underline">
             Sign up
           </Link>
@@ -117,4 +120,3 @@ export default function Login() {
     </div>
   );
 }
-

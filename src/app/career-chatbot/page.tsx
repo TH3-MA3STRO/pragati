@@ -55,11 +55,11 @@ Response format:
 `;
 
 export default function CareerGuidanceChatbot() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<{ text: string; sender: string }[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSendMessage = async (e) => {
+  const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!input.trim()) return;
 
@@ -108,11 +108,15 @@ export default function CareerGuidanceChatbot() {
     }
   };
 
-  const handleQuickQuestion = async (question) => {
+  const handleQuickQuestion = async (question: string) => {
     setInput(question);
     // Trigger form submission after a small delay to allow input to update
     setTimeout(() => {
-      document.querySelector("form").requestSubmit();
+      const form = document.getElementById("form")
+      if(!form){
+        return null
+      }
+      document.querySelector("form")?.requestSubmit();
     }, 100);
   };
 

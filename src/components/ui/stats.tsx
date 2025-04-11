@@ -176,7 +176,7 @@ export default function STEMGenderAnalysis() {
           <CardContent>
             <div className="flex justify-around">
               {graduationData.map((entry, index) => (
-                <div key={entry.year} className="text-center">
+                <div key={index} className="text-center">
                   <h3 className="text-lg font-semibold mb-2">{entry.year}</h3>
                   <ChartContainer
                     config={{

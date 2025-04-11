@@ -3,20 +3,12 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 import STEMGenderAnalysis from "@/components/ui/stats"
 
 // Mock data for the chart
-const womenInSTEMData = [
-  { field: "Computer Science", percentage: 20 },
-  { field: "Engineering", percentage: 22 },
-  { field: "Physics", percentage: 21 },
-  { field: "Mathematics", percentage: 28 },
-  { field: "Chemistry", percentage: 35 },
-  { field: "Biology", percentage: 48 },
-]
 
-// Testimonial data
+
+
 const testimonials = [
   {
     id: 1,

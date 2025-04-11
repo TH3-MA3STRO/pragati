@@ -14,12 +14,12 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   // Handle input changes for email/password
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   // Handle email/password form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(""); // Reset error message
     setLoading(true); // Show loading state
