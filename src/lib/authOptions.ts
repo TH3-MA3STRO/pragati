@@ -12,6 +12,7 @@ declare module "next-auth" {
   interface Session {
     user: {
       role?: string;
+      setup?: boolean;
     } & DefaultSession["user"];
   }
 }
@@ -56,14 +57,18 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async session({ session, user }) {
       if (!session?.user?.email) return session;
-      console.log(user)
       await connectDB();
       const mentor = await Mentor.findOne({ email: session.user.email });
       const mentee = await Mentee.findOne({ email: session.user.email });
 
-      if (mentor) session.user.role = "mentor"; // Assign role to user
-      if (mentee) session.user.role = "mentee";
-
+      if (mentor) {
+        session.user.role = "mentor";
+        session.user.setup = mentor.setupComplete;
+      } // Assign role to user
+      if (mentee){
+        session.user.setup = mentee.setupComplete;
+        session.user.role = "mentee";
+      }
       return session;
     },
   },
