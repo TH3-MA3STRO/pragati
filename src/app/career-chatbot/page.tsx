@@ -112,7 +112,6 @@ export default function CareerGuidanceChatbot() {
     }
     systemPrompt = (session?.user.role==="mentor")? mentorPrompt: menteePrompt
   }, [session, status, router]);
-  console.log(session?.user)
 
   if (status === "loading" || !session || session.user.role !== "mentee") {
     return (

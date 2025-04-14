@@ -37,7 +37,6 @@ export default function MentorDashboard() {
         const response = await fetch(`/api/mentor`);
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
           setMentor(data);
         } else {
           console.error("Failed to fetch mentor data");

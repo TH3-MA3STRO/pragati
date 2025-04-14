@@ -24,7 +24,6 @@ export default function MenteeDashboard() {
         const response = await fetch(`/api/mentee`);
         if (response.ok) {
           const data = await response.json();
-          console.log(data)
           setMentee(data);
         } else {
           console.error("Failed to fetch mentee data");
