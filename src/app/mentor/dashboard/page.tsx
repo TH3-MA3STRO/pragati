@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSession } from "next-auth/react";
-import { Link } from "lucide-react";
+import  Link  from "next/link";
 
 
 
@@ -84,10 +84,38 @@ export default function MentorDashboard() {
           <CardHeader>
             <CardTitle>About Me</CardTitle>
           </CardHeader>
-          <CardContent>
-            <p className="mb-2">Bio: {mentor.bio || 0}</p>
-            <p className="mb-2">Linkedin: {mentor.linkedin || "Not Set!"}</p>
-            <p className="mb-2">Website: {mentor.website || "Not Set"}</p>
+          <CardContent >
+            <p className="mb-5">Bio: {mentor.bio || 0}</p>
+            <Link
+              href={`${mentor.linkedin}`}
+              className="mb-4 p-8 text-white text-center w-[50%] bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            >
+              Linkedin
+            </Link>
+            <Link
+              href={`${mentor.website}`}
+              className="mb-4 p-8 m-2 text-center w-[50%] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 text-wrap break-all"
+            >
+              {" "}
+              Website
+            </Link>
+          </CardContent>
+        </Card>
+        <Card className="bg-white">
+          <CardHeader>
+            <CardTitle>Areas of Interest</CardTitle>
+          </CardHeader>
+          <CardContent className="w-full">
+            <ul className="flex flex-wrap items-center flex-grow-0 flex-row">
+              {mentor.tags.map((mentor: any) => (
+                <span
+                  key={mentor.id}
+                  className="bg-purple-100 m-1 flex-none  break-normal text-nowrap text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded-sm dark:bg-purple-900 dark:text-purple-300"
+                >
+                  <strong>{mentor}</strong>
+                </span>
+              )) || <li>No tags set yet.</li>}
+            </ul>
           </CardContent>
         </Card>
         <Card className="bg-white">

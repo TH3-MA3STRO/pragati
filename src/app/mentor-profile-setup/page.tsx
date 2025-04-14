@@ -41,7 +41,7 @@ export default function MentorProfileSetup() {
           website
         }),
       });
-
+      console.log(response.ok)
       if (response.ok) {
         router.push("/dashboard"); // Redirect to dashboard on success
       } else {

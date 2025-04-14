@@ -13,7 +13,8 @@ export default function DashboardPage() {
       router.push("/login");
     } else {
       if (!session.user.setup) {
-        router.push("/setup");
+        if (session.user.role === "mentor") router.push("/mentor-profile-setup");
+        if (session.user.role === "mentee") router.push("/mentee-profile-setup");
       } else if (session.user.role === "mentor") {
         router.push("/mentor/dashboard");
       } else {
