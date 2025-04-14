@@ -12,7 +12,7 @@ declare module "next-auth" {
     user: {
       role?: string;
       setup?: boolean;
-      email?:string;
+      email?: string;
     } & DefaultSession["user"];
   }
 }
@@ -67,31 +67,44 @@ export const authOptions: AuthOptions = {
 
   callbacks: {
     async jwt({ token, user }) {
-      await connectDB();
-      const email = user?.email || token.email;
+      try {
+        await connectDB();
+        const email = user?.email || token.email;
 
-      if (email) {
-        const mentor = await Mentor.findOne({ email });
-        const mentee = await Mentee.findOne({ email });
+        if (email) {
+          const mentor = await Mentor.findOne({ email });
+          const mentee = await Mentee.findOne({ email });
 
-        if (mentor) {
-          token.role = "mentor";
-          token.setup = mentor.setupComplete;
-        } else if (mentee) {
-          token.role = "mentee";
-          token.setup = mentee.setupComplete;
+          if (mentor) {
+            token.role = "mentor";
+            token.setup = mentor.setupComplete;
+          } else if (mentee) {
+            token.role = "mentee";
+            token.setup = mentee.setupComplete;
+          }
         }
-      }
 
-      return token;
+        console.log("JWT Callback - Token:", token); // Debugging
+        return token;
+      } catch (error) {
+        console.error("Error in JWT callback:", error);
+        return token;
+      }
     },
 
     async session({ session, token }) {
-      if (token) {
-        session.user.role = token.role as string;
-        session.user.setup = token.setup as boolean;
+      try {
+        if (token) {
+          session.user.role = token.role as string;
+          session.user.setup = token.setup as boolean;
+        }
+
+        console.log("Session Callback - Session:", session); // Debugging
+        return session;
+      } catch (error) {
+        console.error("Error in Session callback:", error);
+        return session;
       }
-      return session;
     },
   },
 
@@ -103,5 +116,7 @@ export const authOptions: AuthOptions = {
     signIn: "/login",
   },
 
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || (() => {
+    throw new Error("NEXTAUTH_SECRET is not defined in the environment variables");
+  })(),
 };

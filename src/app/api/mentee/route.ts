@@ -13,12 +13,17 @@ export async function GET(req: Request) {
       secret: process.env.NEXTAUTH_SECRET,
     });
 
+    console.log("Token:", token); // Debugging: Log the token
+
     if (!token) {
+      console.error("Unauthorized: Token missing or invalid");
       return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
-    };
+    }
+
     const mentee = await Mentee.findOne({ email: token.email });
 
     if (!mentee) {
+      console.error("Mentee not found for email:", token.email);
       return NextResponse.json({ error: "Mentee not found" }, { status: 404 });
     }
 

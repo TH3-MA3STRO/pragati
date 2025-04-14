@@ -21,7 +21,10 @@ export default function MenteeDashboard() {
 
     const fetchMenteeData = async () => {
       try {
-        const response = await fetch(`/api/mentee`);
+        const response = await fetch(`/api/mentee`, {
+          method: "GET",
+          credentials: "include"
+        });
         if (response.ok) {
           const data = await response.json();
           setMentee(data);
