@@ -12,7 +12,7 @@ export default function DashboardPage() {
     if (!session) {
       router.push("/auth/signin");
     } else {
-      if (!session.user.setupComplete) {
+      if (!session.user.setup) {
         router.push("/setup");
       } else if (session.user.role === "mentor") {
         router.push("/dashboard/mentor");

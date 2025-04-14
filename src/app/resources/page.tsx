@@ -6,12 +6,19 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
-// Mock data for resources
 const resources = [
   { id: 1, title: "Introduction to Machine Learning", type: "PDF", category: "Computer Science" },
   { id: 2, title: "Quantum Mechanics Basics", type: "Video", category: "Physics" },
   { id: 3, title: "Calculus for Beginners", type: "Course", category: "Mathematics" },
-  // Add more resources...
+  { id: 4, title: "Basics of Thermodynamics", type: "PDF", category: "Engineering" },
+  { id: 5, title: "Linear Algebra Essentials", type: "Course", category: "Mathematics" },
+  { id: 6, title: "Introduction to Artificial Intelligence", type: "Video", category: "Computer Science" },
+  { id: 7, title: "Astrophysics for Enthusiasts", type: "PDF", category: "Physics" },
+  { id: 8, title: "Data Structures and Algorithms", type: "Course", category: "Computer Science" },
+  { id: 9, title: "Fluid Mechanics Overview", type: "Video", category: "Engineering" },
+  { id: 10, title: "Probability and Statistics", type: "PDF", category: "Mathematics" },
+  { id: 11, title: "Nanotechnology Basics", type: "Course", category: "Engineering" },
+  { id: 12, title: "Relativity Explained", type: "Video", category: "Physics" },
 ]
 
 export default function ResourceLibrary() {
@@ -44,7 +51,6 @@ export default function ResourceLibrary() {
             <SelectItem value="Computer Science">Computer Science</SelectItem>
             <SelectItem value="Physics">Physics</SelectItem>
             <SelectItem value="Mathematics">Mathematics</SelectItem>
-            {/* Add more categories as needed */}
           </SelectContent>
         </Select>
       </div>

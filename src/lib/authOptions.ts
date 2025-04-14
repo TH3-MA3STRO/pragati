@@ -7,13 +7,20 @@ import Mentor from "@/models/mentor";
 import Mentee from "@/models/mentee";
 import { connectDB } from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
-
 declare module "next-auth" {
   interface Session {
     user: {
       role?: string;
       setup?: boolean;
+      email?:string;
     } & DefaultSession["user"];
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    role?: string;
+    setup?: boolean;
   }
 }
 
@@ -32,14 +39,18 @@ export const authOptions: AuthOptions = {
           throw new Error("Credentials are required");
         }
 
-        const user = await Mentor.findOne({ email: credentials.email }) ||
-          await Mentee.findOne({ email: credentials.email });
+        const user =
+          (await Mentor.findOne({ email: credentials.email })) ||
+          (await Mentee.findOne({ email: credentials.email }));
 
         if (!user || !(await bcrypt.compare(credentials.password, user.password))) {
           throw new Error("Invalid credentials");
         }
 
-        return user;
+        return {
+          id: user._id.toString(),
+          email: user.email,
+        };
       },
     }),
 
@@ -55,28 +66,42 @@ export const authOptions: AuthOptions = {
   ],
 
   callbacks: {
-    async session({ session, user }) {
-      if (!session?.user?.email) return session;
+    async jwt({ token, user }) {
       await connectDB();
-      const mentor = await Mentor.findOne({ email: session.user.email });
-      const mentee = await Mentee.findOne({ email: session.user.email });
+      const email = user?.email || token.email;
 
-      if (mentor) {
-        session.user.role = "mentor";
-        session.user.setup = mentor.setupComplete;
-      } // Assign role to user
-      if (mentee){
-        session.user.setup = mentee.setupComplete;
-        session.user.role = "mentee";
+      if (email) {
+        const mentor = await Mentor.findOne({ email });
+        const mentee = await Mentee.findOne({ email });
+
+        if (mentor) {
+          token.role = "mentor";
+          token.setup = mentor.setupComplete;
+        } else if (mentee) {
+          token.role = "mentee";
+          token.setup = mentee.setupComplete;
+        }
+      }
+
+      return token;
+    },
+
+    async session({ session, token }) {
+      if (token) {
+        session.user.role = token.role as string;
+        session.user.setup = token.setup as boolean;
       }
       return session;
     },
   },
+
   session: {
     strategy: "jwt",
   },
+
   pages: {
     signIn: "/login",
   },
+
   secret: process.env.NEXTAUTH_SECRET,
 };

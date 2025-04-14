@@ -68,6 +68,7 @@ export default function CareerGuidanceChatbot() {
       router.push("/unauthorized"); // Redirect if not a mentee
     }
   }, [session, status, router]);
+  console.log(session?.user)
 
   if (status === "loading" || !session || session.user.role !== "mentee") {
     return (

@@ -1,25 +1,28 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation";
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { signIn } from "next-auth/react";
 
 export default function SignUp() {
-  const [role, setRole] = useState("mentee")
+  const [role, setRole] = useState("")
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    role: role,
+    role: "",
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, role }));
+  }, [role]);
 
   const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -29,7 +32,6 @@ export default function SignUp() {
     e.preventDefault();
     setError("");
     setLoading(true);
-
     const res = await fetch("/api/auth/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -45,6 +47,7 @@ export default function SignUp() {
       router.push("/login");
     }
   };
+
   return (
     <div className="min-h-screen bg-[#ffe5d9] flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
@@ -84,16 +87,27 @@ export default function SignUp() {
               required
             />
           </div>
-          <RadioGroup defaultValue="mentee" onValueChange={setRole}>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="mentee" id="mentee" />
-              <Label htmlFor="mentee">I want to find a mentor</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="mentor" id="mentor" />
-              <Label htmlFor="mentor">I want to become a mentor</Label>
-            </div>
-          </RadioGroup>
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="role"
+              value="mentor"
+              checked={role === "mentor"}
+              onChange={(e) => setRole(e.target.value)}
+            />
+            Mentor
+          </label>
+
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="role"
+              value="mentee"
+              checked={role === "mentee"}
+              onChange={(e) => setRole(e.target.value)}
+            />
+            Mentee
+          </label>
           <Button className="w-full bg-[#f4acb7] text-white hover:bg-[#ffcad4]">
             {loading ? "Signing up..." : "Sign Up"}
           </Button>

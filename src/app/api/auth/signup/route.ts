@@ -20,7 +20,7 @@ export async function POST(req: Request) {
 
     // Hash the password before storing
     const hashedPassword = await bcrypt.hash(password, 10);
-
+    console.log("from role: "+role)
     if (role === "mentor") {
       const newMentor = new Mentor({ name, email, password: hashedPassword, provider: "email" });
       await newMentor.save();

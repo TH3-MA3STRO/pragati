@@ -5,7 +5,6 @@ const MenteeSchema = new mongoose.Schema(
     name: String,
     email: { type: String, unique: true, required: true },
     password: String, // Only for email/password users
-    image: String,
     bio: String,
     linkedin: String,
     website: String,
